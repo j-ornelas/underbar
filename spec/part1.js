@@ -46,6 +46,12 @@
         _.last([1,2,3]);
       });
 
+      _.last = function(array, n) {
+        if (n===0){return []}
+        if (n > array.length){return array}
+        return n === undefined ? array[array.length-1] : array.slice(n-1, array[array.length-1]);
+      }
+
       it('should pull the last element from an array', function() {
         expect(_.last([1,2,3])).to.equal(3);
       });
