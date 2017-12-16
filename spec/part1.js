@@ -11,7 +11,6 @@
 
       it('should return whatever value is passed into it', function() {
         var uniqueObject = {};
-        return uniqueObject;
         expect(_.identity(1)).to.equal(1);
         expect(_.identity('string')).to.equal('string');
         expect(_.identity(false)).to.be.false;
