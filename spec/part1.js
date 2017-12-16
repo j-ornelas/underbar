@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  
+  // This is another test comment.
 
   describe('Part I', function() {
 
