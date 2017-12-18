@@ -172,6 +172,9 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
     var newArray = [];
+  // this if/else statement creates a new array that puts the accumulator
+  // as the first element. If no accumulator is given, then a copy of the 
+  // original array is made.
     if (accumulator === undefined){
       for (var i=0;i<collection.length;i++){
         newArray.push(collection[i])
@@ -182,6 +185,7 @@
         newArray.push(collection[j]);
       }
     }
+
     var start = newArray[0];
     var reduced = [];
     reduced.push(start);
