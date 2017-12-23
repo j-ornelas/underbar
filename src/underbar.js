@@ -256,8 +256,30 @@
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
-    // TIP: There's a very clever way to re-use every() here.
+  	//pretty much the same as above, but the loop/break at the end is reversed to 
+  	// break at any point a truthy value is found and return TRUE.
+    var iterated = [];
+    if (iterator === undefined){
+    	for(var h=0;h<collection.length;h++){
+    		iterated.push(collection[h]);
+    	}
+    } else {
+	    for (var i=0;i<collection.length;i++){
+	    	iterated.push(iterator(collection[i]));
+	    }
+	}
+    if (collection.length === 0){
+    	return false;
+    } else {
+      for(var j=0;j<iterated.length;j++){
+      	if (iterated[j]){
+      		return true
+      	}
+      }
+    }
+    return false;
   };
+
 
 
   /**
