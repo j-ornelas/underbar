@@ -300,12 +300,60 @@
   //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
+
+  function isEmpty(obj) {
+	for(var key in obj) {
+	    if(obj.hasOwnProperty(key))
+	        return false;
+	}
+	return true;
+  }
+
   _.extend = function(obj) {
+  	// if no destination is given, the source is returned
+  	if (isEmpty(arguments[1])){
+  		return obj
+  	}
+
+  	var array = [];
+  	for (var i=0;i<arguments.length;i++){
+  		array.push(arguments[i]);
+  	}
+
+  	var final = obj;
+  	for (var j=1;j<array.length;j++){
+  		for (var key in array[j]){
+  			final[key] = array[j][key];
+  		}
+  	}
+  	return final;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+  	// pretty much same as above, but it doesn't overwrite a key's value if the 
+  	// key already exists. 
+    var args = Array.prototype.slice.call(arguments);
+
+  	if (isEmpty(args[1])){
+  		return obj
+  	}
+
+  	var array = [];
+  	for (var i=0;i<args.length;i++){
+  		array.push(args[i]);
+  	}
+
+  	var final = obj;
+  	for (var j=0;j<array.length;j++){
+  		for (var key in array[j]){
+  			if (final[key] === undefined){
+  				final[key] = array[j][key];
+  			}
+  		}
+  	}
+  	return final;  	
   };
 
 
@@ -348,8 +396,16 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
-  _.memoize = function(func) {
-  };
+ _.memoize = function(func) {
+  var cache = {};
+  return function(){
+    var argument = JSON.stringify(arguments);
+    if (cache[argument] === undefined){
+      cache[argument] = func.apply(null, arguments);
+    }  
+    return cache[argument];
+  }
+};
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
