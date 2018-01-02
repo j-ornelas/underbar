@@ -185,27 +185,31 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
     var newArray = [];
-  // this if/else statement creates a new array that puts the accumulator
-  // as the first element. If no accumulator is given, then a copy of the 
-  // original array is made.
-    if (accumulator === undefined){
+
+    //first, we make a copy of the array, or values of the obj
+    if (Array.isArray(collection)){
       for (var i=0;i<collection.length;i++){
-        newArray.push(collection[i])
+        newArray.push(collection[i]);
       }
     } else {
-      newArray.push(accumulator);
-      for (var j = 0;j<collection.length;j++){
-        newArray.push(collection[j]);
+      for(var key in collection){
+        newArray.push(collection[key]);
       }
     }
-
+    // next, we add the accumulator to the front of our new array, if it exists
+    if (accumulator === undefined){
+      }else{
+        newArray.unshift(accumulator);
+      }
+    //now we simply apply the iterator to each element, which we'll push to a
+    //new array. To find the final answer, we'll just call the last element.  
     var start = newArray[0];
     var reduced = [];
     reduced.push(start);
     for (var h=1;h<newArray.length;h++){
       reduced.push(iterator(reduced[reduced.length-1], newArray[h]));
     }
-    return reduced[reduced.length-1]
+    return reduced[reduced.length-1];
   };
 
   // Determine if the array or object contains a given value (using `===`).
